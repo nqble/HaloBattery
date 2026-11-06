@@ -8,7 +8,8 @@ This is a record of specific tests and implementation work, not an official Endg
 | Model | Evidence in this record | Status |
 | --- | --- | --- |
 | XM2we | nqble's real-device checks in published HaloBattery pre-release e037304 | Battery comparison, charging display, sleep/wake and receiver reconnection observed |
-| XM2w 4k v2 | Experimental integration build; local automated checks | Integrated hardware validation pending |
+| XM2w 4k | Experimental original-model build; local automated checks | Hardware validation pending |
+| XM2w 4k v2 | Experimental integration build | Technical summary awaiting publication permission |
 | Other XM/OP1 models | No completed HaloBattery hardware results recorded here | Not established by this record |
 
 - [XM2we observations](xm2we.md)
