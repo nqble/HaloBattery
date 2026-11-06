@@ -1,10 +1,10 @@
 # 致谢与证据边界
 
-- **Janlhin** 维护 [Endgame Gear Web Configurator](https://github.com/Janlhin/Endgame_Gear_Web_Configurator)。公开的 [XM2we issue1](https://github.com/Janlhin/Endgame_Gear_Web_Configurator/issues/1)记录其协议调查、配置器修复及与 nqble 的协作。这是外部项目，不是 nqble 的原创组件。
-- **nqble** 执行 XM2we 持有者测试，使用 GPT 辅助准备 HaloBattery 贡献与实验性集成。AI 生成改动仍需审查和真机验证。
-- **HaloBattery 上游及社区维护者** 提供应用与集成框架。本分支不是 Endgame Gear 官方项目。
-- **Vole 贡献者** 提供额外[公开协议文档](https://github.com/johanneszab/vole)；复用代码前应检查许可证和署名。
+- **Janlhin** 负责维护 [Endgame Gear Web Configurator](https://github.com/Janlhin/Endgame_Gear_Web_Configurator)。公开的 [XM2we issue1](https://github.com/Janlhin/Endgame_Gear_Web_Configurator/issues/1) 记录了 Janlhin 对协议的调查、配置器的修复以及与 nqble 的合作。该项目是外部来源，并非由 nqble 编写的组件。
+- **nqble** 作为设备持有者执行了 XM2we 测试，并使用 GPT 辅助准备 HaloBattery 贡献和实验性集成。AI 生成的更改需要审核和硬件验证。
+- **HaloBattery 的上游和社区维护者**提供了该应用程序和集成框架。此分支并非 Endgame Gear 的官方项目。
+- **Vole 贡献者**提供了额外的公开[协议文档](https://github.com/johanneszab/vole)。在复用代码前，请查看仓库以确认当前的文档路径和署名要求。
 
-本文总结 nqble 自己的观察，链接已公开讨论，不发布私人 Discord 消息或他人私下提供的报告、源码附件及日志。以后公开此类材料前应与贡献者确认范围和署名。已独立公开的事实请引用公开来源。
+本文件总结了 nqble 的观察结果，并链接了已公开发布的相关讨论。本文件不会发布私密的 Discord 消息、第三方报告、源文件附件或日志。任何未来发布的类似材料，其发布范围和署名方式都须与贡献者达成一致。独立公开的客观事实应注明其公开来源。
 
-公开引用不等于可任意复制代码；相应许可证和声明仍然适用。公开验证结论与重新分发工具或原始证据包是不同事项。
+公开引用并不授予复制代码的全面许可：适用的源代码许可证和声明仍然有效。公开的验证结果表不同于重新分发工具或原始证据包。
