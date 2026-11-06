@@ -1,6 +1,6 @@
-# XM2we — Jordan's observations
+# XM2we — nqble's observations
 
-Tested by Jordan (nqble), using the published HaloBattery pre-release identified as e037304. This is a summary of the owner's observations, not a universal compatibility claim.
+Tested by nqble, using the published HaloBattery pre-release identified as e037304. This is a summary of the owner's observations, not a universal compatibility claim.
 
 | Check | Observed result |
 | --- | --- |
