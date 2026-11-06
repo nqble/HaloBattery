@@ -21,6 +21,12 @@ The [pre-release build](https://github.com/ahmedkhursheed23/HaloBattery/releases
 
 </div>
 
+## Endgame Gear work in this fork
+
+This is nqble's contribution fork of the [HaloBattery community fork](https://github.com/ahmedkhursheed23/HaloBattery), focused on Endgame Gear battery reporting.
+
+See the **[Endgame findings and per-model status](docs/endgame/README.md)** ([简体中文](docs/endgame/README.zh-CN.md)) for XM2we owner tests, experimental4K integration status, limitations and contributor credits. Published observations and pending tests are kept separate.
+
 ## Features
 
 - **One glance.** A ring for each device fills with its level, turns amber near your alert level and red below it, and breathes green while charging.
