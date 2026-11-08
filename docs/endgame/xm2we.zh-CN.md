@@ -7,20 +7,20 @@
 | 项目 | 记录详情 |
 | --- | --- |
 | 测试人员 | nqble |
-| 鼠标 / 连接 | XM2we 通过其原始的2.4GHz接收器，VID0x3367 / PID0x1961 |
-| HaloBattery 构建版本 | 已发布预发布版 e037304，应用版本1.16.0 |
-| 已保存应用诊断中的运行时 | Python3.12.10, win32 |
-| 已检查的 Windows 版本2026-11-06 | 23H2，构建版本22631.6199；当前系统读数，而非早期会话的历史记录 |
+| 鼠标 / 连接 | XM2we 通过其原配 2.4 GHz 接收器，VID 0x3367 / PID 0x1961 |
+| HaloBattery 构建版本 | 已发布预发布版 e037304，应用版本 1.16.0 |
+| 已保存应用诊断中的运行时 | Python 3.12.10, win32 |
+| 已检查的 Windows 版本（核查于 2026-11-06） | 23H2，构建版本 22631.6199；当前系统读数，而非早期会话的历史记录 |
 | 鼠标/接收器固件 | 保留的证据未确认 |
 | 发布构建检查期间的设置 | 约一分钟的轮询间隔 |
 
-早期的配置器导出结果识别出 Windows/Chrome，但并未识别出具体的 Windows 构建版本。其通用设备/解析字段包含未经确认的默认值；WE 特定数据和日志才是相关证据。官方工具显示的驱动程序版本1.0并非已确认的鼠标/接收器固件版本。已下载的固件更新程序也无法确定已安装版本。
+早期的配置器导出结果识别出 Windows/Chrome，但并未识别出具体的 Windows 构建版本。其通用设备/解析字段包含未经确认的默认值；WE 特定数据和日志才是相关证据。官方工具显示的驱动程序版本 1.0 并非已确认的鼠标/接收器固件版本。已下载的固件更新程序也无法确定已安装版本。
 
 ## 已发布的 HaloBattery 构建观察结果
 
 | 检查项 | 观察到的结果 |
 | --- | --- |
-| 无线百分比 | HaloBattery 和官方工具均显示85% |
+| 无线百分比 | HaloBattery 和官方工具均显示 85% |
 | 接入充电线 | 数秒内出现充电状态指示 |
 | 拔除线缆 | 充电状态指示保留至手动刷新或下一次轮询（间隔约一分钟） |
 | 接收器重新连接 | 移动鼠标后恢复识别 |
@@ -28,13 +28,13 @@
 
 本次会话中未测量睡眠持续时间。未确定确切的电压、充电电流、电池容量和长期精度。接收器仍连接时显示充电，不代表直连 USB 电量读取功能已获验证。已安装固件仍待确认；上表单独标明当前 Windows 版本，不能据此确认原测试时的具体系统构建号。
 
-公开跟进：[HaloBattery 问题12](https://github.com/ahmedkhursheed23/HaloBattery/issues/12)。
-贡献：[PR13](https://github.com/ahmedkhursheed23/HaloBattery/pull/13)。
+公开跟进：[HaloBattery issue #12](https://github.com/ahmedkhursheed23/HaloBattery/issues/12)。
+贡献：[PR #13](https://github.com/ahmedkhursheed23/HaloBattery/pull/13)。
 
-早期与 Janlhin 进行的配置器相关工作涉及不同的应用和独立的测试：[公开问题1](https://github.com/Janlhin/Endgame_Gear_Web_Configurator/issues/1)。这些结果不应计入 HaloBattery 托盘验证。
+早期与 Janlhin 进行的配置器相关工作涉及不同的应用和独立的测试：[公开 issue #1](https://github.com/Janlhin/Endgame_Gear_Web_Configurator/issues/1)。这些结果不应计入 HaloBattery 托盘验证。
 
 ## 单独进行的公开配置器测试
 
-在 [Janlhin 的公开问题1](https://github.com/Janlhin/Endgame_Gear_Web_Configurator/issues/1) 中，nqble 测试了通过有线 PID0x1960 和接收器 PID0x1961 对 XM2we 配置进行读取/写入的情况。 官方工具 LOD 更改2mm→1mm→2mm 隔离的 EEPROM 字节0x0A 及其校验和0x0B；恢复后的181 字节映像与基线匹配。 后续配置器 LOD 写入值已通过回读、官方工具以及实际观察到的抬升断追差异进行了核对；但未测量精确高度。 在构建9e3389c上进行的最终无线验证确认，在不改变性能设置时，不会发送写入请求，恢复操作已将整个映像还原至基线。
+在 [Janlhin 的公开 issue #1](https://github.com/Janlhin/Endgame_Gear_Web_Configurator/issues/1) 中，nqble 测试了通过有线 PID 0x1960 和接收器 PID 0x1961 对 XM2we 配置进行读取/写入的情况。 官方工具 LOD 从 2 mm 改为 1 mm，再恢复为 2 mm，定位到 EEPROM 字节 0x0A 及其校验和 0x0B；恢复后的 181 字节映像与基线匹配。 后续配置器 LOD 写入值已通过回读、官方工具以及实际观察到的抬升断追差异进行了核对；但未测量精确高度。 在构建 9e3389c 上进行的最终无线验证确认，在不改变性能设置时，不会发送写入请求，恢复操作已将整个映像还原至基线。
 
-这些是 nqble 在 Janlhin 配置器中公开记录的拥有者测试，并非 HaloBattery 读取程序的额外验证范围。Janlhin 的调查和修复已在相关讨论和致谢页面中注明。此处不包含任何私人4K发现或原始文件。
+这些是 nqble 在 Janlhin 配置器中公开记录的拥有者测试，并非 HaloBattery 读取程序的额外验证范围。Janlhin 的调查和修复已在相关讨论和致谢页面中注明。此处不包含任何私下提供的 4K 测试结果或原始文件。

@@ -1,10 +1,12 @@
 # Experimental 4K integration status
 
-nqble prepared focused portable HaloBattery test builds with GPT assistance. These releases are experimental; their existence does not establish general model support.
+Last fact-checked: 2026-11-08 (Pacific).
+
+nqble prepared portable HaloBattery test builds for the original XM2w 4k and v2 with GPT assistance. They are experimental builds, not a claim of released support. The original-model candidate now has an unresolved detection-loss report.
 
 | Model | Download | Public status |
 | --- | --- | --- |
-| Original XM2w 4k | [Original Stage D](https://github.com/nqble/HaloBattery/releases/tag/xm2w4k-original-stage-d-r1) | Independent battery/charging checks passed; broader validation pending |
+| Original XM2w 4k | [Original Stage D](https://github.com/nqble/HaloBattery/releases/tag/xm2w4k-original-stage-d-r1) | Battery/charging checks passed; detection loss later reported |
 | XM2w 4k v2 | [V2 Stage D](https://github.com/nqble/HaloBattery/releases/tag/xm2w4kv2-stage-d-r1) | Hardware results received; final public wording awaiting contributor review |
 
 ## Original XM2w 4k: independent owner checks
@@ -15,15 +17,25 @@ On 2026-11-07, **[Mqtteo0](https://github.com/Mqtteo0)** confirmed testing `Halo
 - Connecting the charging cable displayed charging.
 - Unplugging the cable restored the battery percentage.
 
+In a [later report](https://github.com/ahmedkhursheed23/HaloBattery/issues/48#issuecomment-6722818667), Mqtteo0 said detection stopped and opening then closing the official Endgame software restored it. The cause and trigger are not established. Confirmation of the build used for this failure and before/after diagnostics have been requested in the same thread. The earlier battery and charging observations still stand, but reliable detection and recovery are not established.
+
+The reported workaround restores detection; it does not show that the underlying fault is fixed.
+
 These are owner-reported checks on one original-model setup. The comment does not specify the measured percentage, firmware versions or Windows version. It does not report sleep, receiver reconnection, long-term reliability or multiple-device behavior. No raw logs are reproduced here.
 
 Mqtteo0 [approved this summary's scope and attribution](https://github.com/ahmedkhursheed23/HaloBattery/issues/48#issuecomment-6716900302) for the findings pages and correction PR. These results are independent of Janlhin's testing and do not authorize publication of Janlhin's privately supplied findings.
 
-## Local checks and next steps
+## Automated checks
 
-The original-model candidate passed 17 focused automated tests, packaged parser/synthetic-identity checks and a simulated tray check. Historical v2 replies used in parser tests are not original-model hardware evidence. These checks do not measure real-device accuracy or reliability.
+The original-model candidate passed 17 focused automated tests, checks of recorded replies and simulated mouse identities in the packaged app, plus a simulated tray check. Historical v2 replies used in parser tests are not original-model hardware evidence. These checks do not measure real-device accuracy or reliability.
 
-The original model is the last model planned for this testing round. Once the remaining testing and final wording review are complete, nqble plans one combined correction PR. Upstream [PR #363](https://github.com/HeyOkay/HaloBattery/pull/363) proposes bringing community development back to the original repository. The intended destination is upstream `pre-release` after that integration merges; if the transition is still pending, coordinate the destination with maintainers before submitting. No merge or release date is guaranteed. The original and v2 packages are separate; no repeat v2 testing is requested.
+## Upstream integration and next steps
+
+Upstream [PR #363](https://github.com/HeyOkay/HaloBattery/pull/363) merged the community history into the original repository's `pre-release` branch on 2026-11-08. Follow-up [PR #365](https://github.com/HeyOkay/HaloBattery/pull/365) records the pending Endgame correction. These integrations do not include this fork's corrected 4K reader.
+
+The intended correction PR will target upstream `pre-release`. Next steps are to investigate the detection-loss report, finish the remaining validation and obtain final wording approval for privately supplied findings. Keep troubleshooting in [community issue #48](https://github.com/ahmedkhursheed23/HaloBattery/issues/48) and link that evidence in the correction PR. No merge or release date is promised.
+
+## Using the test downloads
 
 Each ZIP contains the app runtime and English/Chinese instructions. Download the Windows ZIP, extract it entirely and retain the runtime folder. The GitHub tag/source archive alone is not a complete source snapshot of the modified test executable; review source excerpts and base information are in the packages.
 
