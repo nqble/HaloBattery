@@ -1,10 +1,12 @@
 # 实验性 4K 集成状态
 
-nqble 在 GPT 的协助下，准备了针对特定型号的便携 HaloBattery 测试构建版本。这些发布版本属于实验性质；它们的存在并不代表所有相关型号均已获支持。
+事实核查日期：2026-11-08（太平洋时间）。
+
+nqble 使用 GPT 辅助为第一代 XM2w 4k 和 v2 准备了便携测试版本。这些实验版本不代表正式发布的型号支持。第一代候选版本目前有一项尚未解决的鼠标识别故障。
 
 | 型号 | 下载 | 公开状态 |
 | --- | --- | --- |
-| 第一代 XM2w 4k | [第一代 Stage D](https://github.com/nqble/HaloBattery/releases/tag/xm2w4k-original-stage-d-r1) | 独立用户的电量和充电检查已通过；更广泛的验证待完成 |
+| 第一代 XM2w 4k | [第一代 Stage D](https://github.com/nqble/HaloBattery/releases/tag/xm2w4k-original-stage-d-r1) | 电量和充电检查已通过；后续报告了无法识别的问题 |
 | XM2w 4k v2 | [V2 阶段 D](https://github.com/nqble/HaloBattery/releases/tag/xm2w4kv2-stage-d-r1) | 已收到硬件测试结果；最终公开措辞待贡献者审核 |
 
 ## 第一代 XM2w 4k：独立用户测试
@@ -15,15 +17,25 @@ nqble 在 GPT 的协助下，准备了针对特定型号的便携 HaloBattery �
 - 连接充电线后，会显示充电状态。
 - 拔掉线缆后，重新显示电量百分比。
 
+Mqtteo0 在[后续报告](https://github.com/ahmedkhursheed23/HaloBattery/issues/48#issuecomment-6722818667)中表示，应用会停止识别鼠标，打开再关闭官方 Endgame 软件后即可恢复。原因和触发条件尚不明确。同一讨论中已请求确认故障所用版本，并提供恢复前后的诊断信息。此前的电量和充电检查仍有参考价值，但尚不能确认识别及恢复功能可靠。
+
+上述临时处理方法可以恢复识别，但不能证明根本故障已经修复。
+
 以上是用户在一套第一代型号设备上的测试反馈。评论中未说明测得的百分比、固件版本或 Windows 版本。该评论也未报告睡眠、接收器重新连接、长期可靠性或多设备行为。此处未转载任何原始日志。
 
 Mqtteo0 [已同意按上述范围总结结果并署名](https://github.com/ahmedkhursheed23/HaloBattery/issues/48#issuecomment-6716900302)，用于测试结果页面和修正 PR。这些结果独立于 Janlhin 的测试，且不构成对 Janlhin 私下提供的结果进行发布的授权。
 
-## 本地检查和后续步骤
+## 自动化检查
 
 第一代型号候选版本通过了 17 项专项自动化测试、打包程序的解析器回放和模拟身份检查以及模拟托盘检查。解析器测试中使用的历史 v2 响应并非第一代型号硬件证据。这些检查不衡量真实设备的准确性或可靠性。
 
-第一代型号是本轮测试计划中的最后一个型号。剩余测试和最终措辞审核完成后，nqble 计划提交一份综合修正 PR。上游 [PR #363](https://github.com/HeyOkay/HaloBattery/pull/363) 提议将社区开发成果合并回原项目仓库。计划在该集成合并后向上游 `pre-release` 提交；若届时过渡仍未完成，则先与维护者协调提交位置。不保证任何合并或发布日期。第一代软件包和 v2 包是独立的；无需重复进行 v2 测试。
+## 上游集成与后续步骤
+
+上游 [PR #363](https://github.com/HeyOkay/HaloBattery/pull/363) 已于 2026-11-08 将社区开发历史合并到原项目的 `pre-release` 分支。后续 [PR #365](https://github.com/HeyOkay/HaloBattery/pull/365) 记录了待提交的 Endgame 修正。这两项集成都未包含本分支的修正版 4K 读取程序。
+
+修正 PR 计划提交到上游 `pre-release`。下一步是排查无法识别的问题、完成剩余验证，并取得私下提供的测试结果的最终公开措辞许可。继续在[社区 issue #48](https://github.com/ahmedkhursheed23/HaloBattery/issues/48)排查，并在修正 PR 中链接相关证据。不承诺合并或发布日期。
+
+## 使用测试下载包
 
 每个 ZIP 文件都包含应用运行时以及英文/中文说明。请下载 Windows ZIP 文件，将其完整解压并保留运行时文件夹。仅凭 GitHub 标签/源码存档并不能构成修改后测试可执行文件的完整源码快照；相关源码节选和基础信息均包含在软件包中。
 
