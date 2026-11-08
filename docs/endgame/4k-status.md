@@ -7,7 +7,7 @@ nqble prepared portable HaloBattery test builds for the original XM2w 4k and v2 
 | Model | Download | Public status |
 | --- | --- | --- |
 | Original XM2w 4k | [Original Stage D](https://github.com/nqble/HaloBattery/releases/tag/xm2w4k-original-stage-d-r1) | Battery/charging checks passed; detection loss later reported |
-| XM2w 4k v2 | [V2 Stage D](https://github.com/nqble/HaloBattery/releases/tag/xm2w4kv2-stage-d-r1) | Hardware results received; final public wording awaiting contributor review |
+| XM2w 4k v2 | [V2 Stage D](https://github.com/nqble/HaloBattery/releases/tag/xm2w4kv2-stage-d-r1) | Hardware results received; Janlhin’s private hardware summary awaits final wording approval |
 
 ## Original XM2w 4k: independent owner checks
 
@@ -46,6 +46,8 @@ Each ZIP contains the app runtime and English/Chinese instructions. Download the
 [V2 executable report](https://www.virustotal.com/gui/file/d0a9527aa44d98fbd8ee543b9f4eced744437ca4cd5020180a5963bb660c698e/behavior): last reviewed 2026-11-05 Pacific, 3/71 detections. The same full-runtime execution limitation applies. Counts may change; consult each exact report. Neither report is a security clearance or a reason to disable protection.
 
 ## Sources and publication boundary
+
+Public results are documented here, including nqble's XM2we checks and Mqtteo0's original XM2w 4k observations. Janlhin's privately supplied hardware findings will be added after Janlhin approves the final wording. This review requirement does not hold up publication of independently public or separately approved results.
 
 Public protocol context: [Janlhin's configurator](https://github.com/Janlhin/Endgame_Gear_Web_Configurator) and [Vole](https://github.com/johanneszab/vole). Their public work is credited separately from nqble's integration. Protocol families and hardware verification scopes must not be conflated.
 

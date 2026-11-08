@@ -7,7 +7,7 @@ nqble 使用 GPT 辅助为第一代 XM2w 4k 和 v2 准备了便携测试版本�
 | 型号 | 下载 | 公开状态 |
 | --- | --- | --- |
 | 第一代 XM2w 4k | [第一代 Stage D](https://github.com/nqble/HaloBattery/releases/tag/xm2w4k-original-stage-d-r1) | 电量和充电检查已通过；后续报告了无法识别的问题 |
-| XM2w 4k v2 | [V2 阶段 D](https://github.com/nqble/HaloBattery/releases/tag/xm2w4kv2-stage-d-r1) | 已收到硬件测试结果；最终公开措辞待贡献者审核 |
+| XM2w 4k v2 | [V2 阶段 D](https://github.com/nqble/HaloBattery/releases/tag/xm2w4kv2-stage-d-r1) | 已收到硬件测试结果；Janlhin 私下提供的硬件测试摘要待最终措辞批准 |
 
 ## 第一代 XM2w 4k：独立用户测试
 
@@ -46,6 +46,8 @@ Mqtteo0 [已同意按上述范围总结结果并署名](https://github.com/ahmed
 [V2 可执行文件报告](https://www.virustotal.com/gui/file/d0a9527aa44d98fbd8ee543b9f4eced744437ca4cd5020180a5963bb660c698e/behavior)：上次审查于 2026-11-05 太平洋时间，检出 3/71 项。相同的完整运行时执行限制同样适用。计数可能会发生变化；请参阅每份具体报告。这两份报告均不构成安全许可，也不构成禁用防护的理由。
 
 ## 来源与发布边界
+
+本记录已收录公开结果，包括 nqble 的 XM2we 测试和 Mqtteo0 的第一代 XM2w 4k 观察。Janlhin 私下提供的硬件测试结果，将在 Janlhin 批准最终公开措辞后补充。这项审核要求不影响已经公开或另获发布许可的结果。
 
 公开协议上下文：[Janlhin 配置器](https://github.com/Janlhin/Endgame_Gear_Web_Configurator) 和 [Vole](https://github.com/johanneszab/vole)。其公开项目贡献与 nqble 的集成工作分别署名。不得混淆协议族与硬件验证范围。
 

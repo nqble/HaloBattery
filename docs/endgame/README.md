@@ -15,11 +15,13 @@ Stage D is the name of this collaboration's portable HaloBattery application tes
 
 ## Model status
 
+Public results are documented here, including nqble's XM2we checks and Mqtteo0's original XM2w 4k observations. Janlhin's privately supplied hardware findings will be added after Janlhin approves the final wording. This review requirement does not hold up publication of independently public or separately approved results.
+
 | Model | Evidence in this record | Status |
 | --- | --- | --- |
 | XM2we | nqble's real-device checks in published HaloBattery pre-release e037304 | Battery comparison, charging display, sleep/wake and receiver reconnection observed |
 | XM2w 4k | Mqtteo0's public checks in the original Stage D build; local automated checks | Battery and charging checks passed; later detection loss reported, recovery unresolved |
-| XM2w 4k v2 | Experimental integration build | Final public wording awaiting contributor review |
+| XM2w 4k v2 | Experimental integration build | Janlhin’s private hardware summary awaits final wording approval |
 | Other XM/OP1 models | No completed HaloBattery hardware results recorded here | Not established by this record |
 
 - [XM2we observations](xm2we.md)
