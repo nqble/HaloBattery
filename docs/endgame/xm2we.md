@@ -38,3 +38,13 @@ Earlier configurator work with Janlhin covered a different application and separ
 In [Janlhin's public issue #1](https://github.com/Janlhin/Endgame_Gear_Web_Configurator/issues/1), nqble tested XM2we configuration reading/writing over both wired PID 0x1960 and receiver PID 0x1961. Official-tool LOD changes from 2 mm to 1 mm and back to 2 mm isolated EEPROM byte 0x0A and its checksum 0x0B; the restored 181-byte image matched the baseline. Subsequent configurator LOD writes were checked against read-back, the official tool and a perceived physical lift-off difference; exact heights were not measured. Final wireless verification on build 9e3389c confirmed unchanged performance settings sent no writes and restoration returned the entire image to the baseline.
 
 These are nqble's publicly documented owner tests in Janlhin's configurator, not additional HaloBattery provider coverage. Janlhin's investigation and fixes are credited in the linked discussion and the credits page. No private 4K findings or raw files are included here.
+
+## Follow-up: uneven reported battery decline
+
+Reported by nqble on 2026-11-09, describing use on 2026-11-08. The mouse had remained around 65–70% for some time. After a gaming session, the displayed level fell from about 65% to 25% over roughly a couple of hours, then shortly afterward to 10%. At the final 10% reading, HaloBattery and the official Endgame Gear tool agreed, and the mouse flashed red. The earlier 65% and 25% readings were not confirmed against the official tool in this report.
+
+This is an owner-reported timeline, not a continuous measurement. Agreement at 10% makes a HaloBattery-only display error less likely, but both tools may use the same device estimate. It does not establish actual capacity loss, abnormal power consumption or a faulty battery. Firmware, exact timings and total runtime for this charge cycle remain unconfirmed.
+
+The owner also recalled HaloBattery's remaining-use estimate falling substantially while the percentage stayed near the same level. That estimate is calculated by HaloBattery from battery history; it is separate from the percentage returned by the mouse. No numerical estimate history was retained for this event, so this observation does not establish an estimator defect.
+
+This follow-up concerns the XM2we only; it is separate from the original XM2w 4k standby report.
