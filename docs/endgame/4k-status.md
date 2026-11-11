@@ -1,6 +1,6 @@
 # Experimental 4K integration
 
-Recovery evidence updated 2026-11-10 (Pacific). Stage D builds are experimental, not released support.
+Recovery evidence updated 2026-11-11 (Pacific). Stage D builds are experimental, not released support.
 
 ## Maintainer summary
 
@@ -30,7 +30,17 @@ Idle is suspected, not confirmed. The 34-second gap between report timestamps is
 
 Battery communication may remain stuck after a failed request. [Vole section 14](https://github.com/johanneszab/vole/blob/4ba29dea54b4628df03cfe2f94f4576c124afd80/re/PROTOCOL.md#14-a-failed-command-wedges-the-device-until-the-next-probe) describes recovery through `0x0F`, but its live evidence is **OP1w 4k v2, mouse FW 1.07 / receiver FW 1.01 on Linux**. This is a lead, not an established XM2w cause or fix. Device state, application interaction and elapsed time remain alternatives.
 
-Source review and nine targeted simulations show that the candidate keeps polling and reopens its handle after failure, including after cached icon expiry. Diagnostics cannot distinguish failure at `0x0E` from failure at `0xB4`. A separate logging-only proposal adds command, status, reply length and elapsed read time; it has not been packaged into a new executable.
+The [logging build](https://github.com/nqble/HaloBattery/releases/tag/xm2w4k-original-logging-r1) identifies the failing command without adding device commands. [November 11 diagnostics](https://github.com/ahmedkhursheed23/HaloBattery/issues/48#issuecomment-6803300510) show identity command `0x0E` returning `0x08` before and after restarting HaloBattery. After opening the official tool, a battery request returns `0x01`, but that poll still fails the consecutive-sample agreement check. The displayed 30% is cached, not a newly accepted reading.
+
+These failures returned promptly; they do not demonstrate a blocked HID call. The reported elapsed time covers the whole read attempt, not just the final request.
+
+### Local timeout experiment
+
+A new **original-model-only** build runs each status transaction in a separate process. If the worker exceeds its eight-second wait, the app terminates it and briefly waits for cleanup. A worker still terminating prevents another request. The tray never closes a handle another worker is using. Device enumeration remains outside this protection.
+
+Failed polls also record the validated battery samples and failure stage. The reading rules and command sequence are unchanged; no wake command was added. This protects against a possible blocked operation, **not the persistent returning-`0x08` failure**.
+
+Verification: 29 focused tests, seven packaged worker simulations and a synthetic tray check passed. No hardware validation or full application-suite pass is claimed. The build is local only: **not published or submitted to VirusTotal**. Existing scan links do not cover it. English/Chinese instructions are prepared; Chinese used Index-Translate followed by technical and wording corrections, with native review pending.
 
 The original build also passed 17 earlier focused tests, recorded-reply checks, simulated identity checks and a simulated tray check. Historical v2 replies and simulations are not original-model hardware evidence.
 
@@ -38,8 +48,8 @@ The original build also passed 17 earlier focused tests, recorded-reply checks, 
 
 The working explanation is that cursor input recovers while battery communication remains stuck; opening the official tool appears to restore reporting. What the tool changes is unknown. No fix has been confirmed.
 
-1. Improve diagnostics first: distinguish mouse-identification failure from battery-read failure without changing device commands.
-2. Compare one recovery action per incident, such as restarting HaloBattery versus opening the official tool. Record timing; do not combine actions and assume which one helped.
+1. Review the timeout experiment, then agree a focused hardware check. Keep timeout protection separate from investigation of returning `0x08` responses.
+2. Capture individual battery samples when communication resumes but the agreement check fails. Do not infer their values from the cached percentage.
 3. Review model-specific sleep effects and request details before considering a controlled `0x0F` experiment. No automatic probe fallback is implemented or approved by this plan.
 
 A separate option is to investigate receiver notifications for sleep/wake and battery changes, potentially avoiding queries during sleep. [Vole's protocol notes](https://github.com/johanneszab/vole/blob/4ba29dea54b4628df03cfe2f94f4576c124afd80/re/PROTOCOL.md) describe a separate Windows notification collection, `FF02:0001`; `FF01:0002` remains the command channel. Equivalent XM2w behavior and coexistence with other software are unverified. No notification reader has been implemented.
