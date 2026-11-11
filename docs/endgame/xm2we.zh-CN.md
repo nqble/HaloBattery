@@ -26,12 +26,10 @@
 | 接收器重新连接 | 移动鼠标后恢复识别 |
 | 自然休眠/移动 | 测试期间出现休眠指示；移动鼠标后恢复正常 |
 
-本次会话中未测量睡眠持续时间。未确定确切的电压、充电电流、电池容量和长期精度。接收器仍连接时显示充电，不代表直连 USB 电量读取功能已获验证。已安装固件仍待确认；上表单独标明当前 Windows 版本，不能据此确认原测试时的具体系统构建号。
+本次会话中未测量睡眠持续时间。未确定确切的电压、充电电流、电池容量和长期精度。接收器仍连接时显示充电，不代表直连 USB 电量读取功能已获验证。
 
 公开跟进：[HaloBattery issue #12](https://github.com/ahmedkhursheed23/HaloBattery/issues/12)。
 贡献：[PR #13](https://github.com/ahmedkhursheed23/HaloBattery/pull/13)。
-
-早期与 Janlhin 进行的配置器相关工作涉及不同的应用和独立的测试：[公开 issue #1](https://github.com/Janlhin/Endgame_Gear_Web_Configurator/issues/1)。这些结果不应计入 HaloBattery 托盘验证。
 
 ## 单独进行的公开配置器测试
 

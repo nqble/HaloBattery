@@ -2,30 +2,23 @@
 
 English | [简体中文](README.zh-CN.md)
 
-Maintained by [nqble](https://github.com/nqble) in this HaloBattery fork.
-This is a record of specific tests and implementation work, not an official Endgame Gear resource or a claim that every XM/OP1 model is supported.
-
-## How to read this record
-
-Start with the model table below, then open the linked model page for the tested build, observations and limitations. Model names are distinct: XM2we, original XM2w 4k and XM2w 4k v2 are not interchangeable. A result for one model does not establish support for another.
-
-An owner observation describes what happened on a real device. An automated or simulated check tests software behavior without proving it works on that device. A release status says where the code has been merged or published; passing a test alone does not change that status.
-
-Stage D is the name of this collaboration's portable HaloBattery application test, not a HaloBattery release version or a certification. Original-model and v2 Stage D downloads are separate builds.
+Maintained by [nqble](https://github.com/nqble). This fork records specific HaloBattery tests and integration work, not official Endgame Gear support.
 
 ## Model status
 
-Public results are documented here, including nqble's XM2we checks and Mqtteo0's original XM2w 4k observations. Janlhin's privately supplied hardware findings will be added after Janlhin approves the final wording. This review requirement does not hold up publication of independently public or separately approved results.
-
-| Model | Evidence in this record | Status |
+| Model | Evidence | Status |
 | --- | --- | --- |
-| XM2we | nqble's real-device checks in published HaloBattery pre-release e037304 | Battery comparison, charging display, sleep/wake and receiver reconnection observed |
-| XM2w 4k | Mqtteo0's public checks in the original Stage D build; local automated checks | Battery and charging checks passed; detection recovery inconsistent and unresolved |
-| XM2w 4k v2 | Experimental integration build | Janlhin’s private hardware summary awaits final wording approval |
-| Other XM/OP1 models | No completed HaloBattery hardware results recorded here | Not established by this record |
+| XM2we | nqble's checks in published pre-release `e037304` | Battery comparison, charging, sleep/wake and receiver reconnection observed |
+| Original XM2w 4k | Mqtteo0's public Stage D checks | Battery/charging checks passed; cursor movement and Refresh do not reliably restore battery reporting |
+| XM2w 4k v2 | Private hardware results received | Janlhin's final wording approval pending |
+| Other XM/OP1 models | No completed hardware results recorded here | Support not established by this record |
 
-- [XM2we observations](xm2we.md)
-- [4K integration status](4k-status.md)
-- [Credits and evidence boundaries](credits-and-sources.md)
+- [4K maintainer summary, recovery evidence and next step](4k-status.md)
+- [XM2we environment and observations](xm2we.md)
+- [Credits, sources and publication scope](credits-and-sources.md)
 
-A matching percentage at one point does not calibrate battery accuracy. A successful battery read does not prove that the tray icon will recover correctly after sleep or reconnection, or that other firmware versions will work. These are battery reporting/compatibility observations, not battery capacity, runtime or health measurements.
+## Scope
+
+Stage D means the portable application test used in this collaboration. Original-model and v2 builds are separate. Simulations do not establish hardware compatibility. Matching percentages do not establish capacity, health or long-term accuracy. A result for one model or firmware does not establish another's behavior.
+
+Public or separately approved results can be documented now. Janlhin's private findings require final wording approval; sharing raw reports or logs requires separate permission.
