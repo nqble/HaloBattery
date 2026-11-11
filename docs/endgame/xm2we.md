@@ -26,12 +26,10 @@ The earlier configurator export identifies Windows/Chrome but not an exact Windo
 | Receiver reconnection | Detection returned after mouse movement |
 | Natural sleep/movement | Sleep indicator appeared during testing; movement restored the normal indicator |
 
-The sleep duration was not measured in this session. Exact voltage, charging current, battery capacity and long-term accuracy were not established. Do not infer direct-USB provider coverage from seeing a charging indication while a receiver is present. Installed firmware remains unconfirmed; the current Windows readout is distinguished from the original test environment above.
+The sleep duration was not measured in this session. Exact voltage, charging current, battery capacity and long-term accuracy were not established. Do not infer direct-USB provider coverage from seeing a charging indication while a receiver is present.
 
 Public follow-up: [HaloBattery issue #12](https://github.com/ahmedkhursheed23/HaloBattery/issues/12).
 Contribution: [PR #13](https://github.com/ahmedkhursheed23/HaloBattery/pull/13).
-
-Earlier configurator work with Janlhin covered a different application and separate tests: [public issue #1](https://github.com/Janlhin/Endgame_Gear_Web_Configurator/issues/1). Those results should not be counted as HaloBattery tray validation.
 
 ## Separate public configurator testing
 
