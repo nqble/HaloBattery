@@ -34,6 +34,18 @@ Source review and nine targeted simulations show that the candidate keeps pollin
 
 The original build also passed 17 earlier focused tests, recorded-reply checks, simulated identity checks and a simulated tray check. Historical v2 replies and simulations are not original-model hardware evidence.
 
+### Investigation plan
+
+The working explanation is that cursor input recovers while battery communication remains stuck; opening the official tool appears to restore reporting. What the tool changes is unknown. No fix has been confirmed.
+
+1. Improve diagnostics first: distinguish mouse-identification failure from battery-read failure without changing device commands.
+2. Compare one recovery action per incident, such as restarting HaloBattery versus opening the official tool. Record timing; do not combine actions and assume which one helped.
+3. Review model-specific sleep effects and request details before considering a controlled `0x0F` experiment. No automatic probe fallback is implemented or approved by this plan.
+
+A separate option is to investigate receiver notifications for sleep/wake and battery changes, potentially avoiding queries during sleep. [Vole's protocol notes](https://github.com/johanneszab/vole/blob/4ba29dea54b4628df03cfe2f94f4576c124afd80/re/PROTOCOL.md) describe a separate Windows notification collection, `FF02:0001`; `FF01:0002` remains the command channel. Equivalent XM2w behavior and coexistence with other software are unverified. No notification reader has been implemented.
+
+Acceptance requires repeated recovery without the official tool, preserved battery/charging behavior and no unwanted wake or delayed sleep. A single successful reading is insufficient.
+
 ## Integration and next step
 
 Upstream [PR #363](https://github.com/HeyOkay/HaloBattery/pull/363) merged community history into `pre-release` on November 8; [PR #365](https://github.com/HeyOkay/HaloBattery/pull/365) noted the pending Endgame correction. Neither included this candidate reader. No correction PR from nqble was listed upstream when checked on November 10.
