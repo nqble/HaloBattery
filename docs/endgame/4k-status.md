@@ -15,7 +15,7 @@ The candidate uses `FF01:0002`, report `0xA1`, identity command `0x0E` and batte
 
 **[Mqtteo0](https://github.com/Mqtteo0)** tested `HaloBattery-XM2w4k-Original-StageD-r1-Windows`. Their [November 7 results](https://github.com/ahmedkhursheed23/HaloBattery/issues/48#issuecomment-6716473809) confirm wireless percentage agreement with the official tool, charging display on cable connection, and percentage recovery after cable removal.
 
-Recovery was initially reported after [movement and waiting or Refresh](https://github.com/ahmedkhursheed23/HaloBattery/issues/48#issuecomment-6742865971). On November 10, [opening the official tool seemed necessary](https://github.com/ahmedkhursheed23/HaloBattery/issues/48#issuecomment-6764152209). The [latest reply](https://github.com/ahmedkhursheed23/HaloBattery/issues/48#issuecomment-6782283052) confirms cursor movement but failed recovery through Refresh.
+Recovery was initially reported after [movement and waiting or Refresh](https://github.com/ahmedkhursheed23/HaloBattery/issues/48#issuecomment-6742865971). On November 10, [opening the official tool seemed necessary](https://github.com/ahmedkhursheed23/HaloBattery/issues/48#issuecomment-6764152209). The [November 10 reply](https://github.com/ahmedkhursheed23/HaloBattery/issues/48#issuecomment-6782283052) confirms cursor movement but failed recovery through Refresh.
 
 The [paired diagnostics](https://github.com/ahmedkhursheed23/HaloBattery/issues/48#issuecomment-6777323188) show:
 
@@ -34,21 +34,29 @@ The [logging build](https://github.com/nqble/HaloBattery/releases/tag/xm2w4k-ori
 
 These failures returned promptly; they do not demonstrate a blocked HID call. The reported elapsed time covers the whole read attempt, not just the final request.
 
-### Local timeout experiment
+### Published original-model timeout experiment
 
-A new **original-model-only** build runs each status transaction in a separate process. If the worker exceeds its eight-second wait, the app terminates it and briefly waits for cleanup. A worker still terminating prevents another request. The tray never closes a handle another worker is using. Device enumeration remains outside this protection.
+The [original-model bounded-r1 build](https://github.com/nqble/HaloBattery/releases/tag/xm2w4k-original-bounded-r1) runs status transactions in a separate process. Its earlier local checks passed: 29 focused tests, seven packaged worker simulations and a synthetic tray check. It supports the original model only and has not been submitted to VirusTotal.
 
-Failed polls also record the validated battery samples and failure stage. The reading rules and command sequence are unchanged; no wake command was added. This protects against a possible blocked operation, **not the persistent returning-`0x08` failure**.
+[Mqtteo0's subsequent report](https://github.com/ahmedkhursheed23/HaloBattery/issues/48#issuecomment-6810893248) says Refresh worked without the official tool. Both attached snapshots contain an accepted online 25% reading. They do not capture a failure-to-recovery sequence or a timeout, so they do not establish that the intermittent reporting loss is fixed.
 
-Verification: 29 focused tests, seven packaged worker simulations and a synthetic tray check passed. No hardware validation or full application-suite pass is claimed. The build is local only: **not published or submitted to VirusTotal**. Existing scan links do not cover it. English/Chinese instructions are prepared; Chinese used Index-Translate followed by technical and wording corrections, with native review pending.
+### Current-upstream packaging verification
 
-The original build also passed 17 earlier focused tests, recorded-reply checks, simulated identity checks and a simulated tray check. Historical v2 replies and simulations are not original-model hardware evidence.
+A separate local candidate is based on upstream pre-release `db0516e6ab5f50706385d50ffc20b4b9e10071a8`. It prepares original/v2 identity handling and process-isolated status transactions, while retaining the release hold: normal 4K polling remains disabled.
+
+The updated source suite passed: **1,988 tests run, two skipped**. Packaged verification passed ten simulated transactions, including both model identities, wired presentation, failure status, sample disagreement and hangs during open/send/read/close. Five lifecycle checks cover concurrent-request refusal, pending termination, completed-worker cleanup, active shutdown and closed-boundary suppression; pending-termination and completed-worker cases use simulated process objects. A synthetic tray check and three additional canonical worker-entry cases passed. Embedded code matched the reviewed source.
+
+The first tray attempt failed to create its Windows notification-area icon in the restricted execution context. Retrying in the normal desktop context passed; the initial failure is retained in the local verification record. These are software simulations, not new mouse hardware results.
+
+After launch, the parent waits up to eight seconds for transaction completion, then attempts termination and cleanup. An unreaped worker blocks another transaction. Parent enumeration and process creation are outside that wait; abrupt process exit and unusual driver/OS termination remain unverified. Only `0x0E` and `0xB4` are allowed; no `0x0D` follow-up or automatic `0x0F` recovery was added.
+
+This candidate and its local verification harness are **not a new tester release**. Do not send the harness as a hardware-test build. A separately prepared portable test package and short checklist are needed before asking an owner to test. The persistent returning-`0x08` stall remains unresolved; blocking-call protection does not establish recovery.
 
 ### Investigation plan
 
 The working explanation is that cursor input recovers while battery communication remains stuck; opening the official tool appears to restore reporting. What the tool changes is unknown. No fix has been confirmed.
 
-1. Review the timeout experiment, then agree a focused hardware check. Keep timeout protection separate from investigation of returning `0x08` responses.
+1. Review the packaged candidate, then prepare a separately labelled portable package and focused hardware checklist. Keep timeout protection separate from investigation of returning `0x08` responses.
 2. Capture individual battery samples when communication resumes but the agreement check fails. Do not infer their values from the cached percentage.
 3. Review model-specific sleep effects and request details before considering a controlled `0x0F` experiment. No automatic probe fallback is implemented or approved by this plan.
 
