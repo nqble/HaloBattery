@@ -1,6 +1,6 @@
-# Experimental 4K integration
+# 4K correction: readings verified, recovery unresolved
 
-Recovery evidence updated 2026-11-13 (Pacific). Stage D builds are experimental, not released support.
+Updated November 13, 2026 (Pacific). Experimental work; no correction PR from nqble has been submitted upstream.
 
 ## Maintainer summary
 
@@ -9,84 +9,42 @@ Recovery evidence updated 2026-11-13 (Pacific). Stage D builds are experimental,
 | Original XM2w 4k | Janlhin's native and source-run tray checks; Mqtteo0's separate portable-build tests | Working reads, charging display and ordinary sleep recovery; persistent reporting stall remains unresolved |
 | XM2w 4k v2 | Janlhin's earlier portable Stage D checks and later native/source-run diagnostics | Working reads and earlier six-check pass; later persistent stalls qualify the earlier result |
 
-The candidate uses `FF01:0002`, report `0xA1`, identity command `0x0E` and battery command `0xB4`. Non-success payloads are rejected. No `0x0F` probe or hardware-tested recovery fix has been added.
+These are specific units and firmware, not lineup-wide validation. See the [approved detailed findings](4k-findings.md) for setups, protocol evidence, per-model results and limitations.
 
-Janlhin verified the corrected read-only path on one original XM2w 4k and one v2. Four fields agreed with vendor-tool comparisons: model identity, mouse firmware, receiver firmware and wireless percentage. Wired display suppresses misleading percentage values. Both models also developed persistent status-reporting stalls that movement did not clear. Recovery is unresolved; this is experimental support, not a completed reliability claim.
+The correction uses `FF01:0002`, report `0xA1`, identity `0x0E` and battery `0xB4`. Failed/stale payloads are rejected; wired display shows Charging without a misleading percentage. No automatic `0x0F` recovery is implemented.
 
-The original-model bounded-r1 portable package is published on this fork. It uses process isolation to contain some blocked status work; it does not enable v2 or establish a fix for returning `0x08` replies. Mqtteo0 subsequently reported successful reads, but a failing-to-recovered stall sequence was not captured in that submission.
+## Latest public hardware evidence
 
-Janlhin's separate timeout patch was developed after their hardware tests and has simulated-device evidence only. Its repairs and remaining runtime limits require review before adoption. No additional hardware testing is currently requested from Janlhin; the later receiver-replug experiment remains pending.
+[Mqtteo0's November 13 report and paired diagnostics](https://github.com/ahmedkhursheed23/HaloBattery/issues/48#issuecomment-6849573528) identify the original-model **bounded-r1** build:
 
-[Detailed findings](4k-findings.md)
-
-## Original-model hardware evidence
-
-**[Mqtteo0](https://github.com/Mqtteo0)** tested `HaloBattery-XM2w4k-Original-StageD-r1-Windows`. Their [November 7 results](https://github.com/ahmedkhursheed23/HaloBattery/issues/48#issuecomment-6716473809) confirm wireless percentage agreement with the official tool, charging display on cable connection, and percentage recovery after cable removal.
-
-Recovery was initially reported after [movement and waiting or Refresh](https://github.com/ahmedkhursheed23/HaloBattery/issues/48#issuecomment-6742865971). On November 10, [opening the official tool seemed necessary](https://github.com/ahmedkhursheed23/HaloBattery/issues/48#issuecomment-6764152209). The [November 10 reply](https://github.com/ahmedkhursheed23/HaloBattery/issues/48#issuecomment-6782283052) confirms cursor movement but failed recovery through Refresh.
-
-The [paired diagnostics](https://github.com/ahmedkhursheed23/HaloBattery/issues/48#issuecomment-6777323188) show:
-
-| Before opening the official tool | After opening it |
+| Before opening the Endgame tool | After opening it and refreshing HaloBattery |
 | --- | --- |
-| No battery result; `device status 0x08; payload not used` | Successful 45% receiver reading; charging status unknown |
-| Receiver `VID=3367 PID=1970`, including `FF01:0002`, remains listed | Same original Stage D r1 build |
+| Identity `0x0E` returned `0x08`; no validated battery sample | Accepted 55% receiver reading; mouse firmware bytes `01 10` |
+| One 63-byte response; whole read attempt about 187 ms | Recovery was associated with vendor-tool use and Refresh |
 
-Idle is suspected, not confirmed. The 34-second gap between report timestamps is not measured recovery latency. An earlier 75% snapshot was not a simultaneous official-tool comparison. Receiver-replug, long-term and multiple-device checks remain unreported. The recovery issue does not invalidate the earlier battery/charging checks.
+This returned promptly; it is **not a captured timeout**. The recurrence shows that bounded-r1 has not eliminated the reporting failure. The owner describes PC startup; Restart versus shutdown/power-on, mouse state and the cause remain unconfirmed. Do not call this incident a proven sleep or Fast Startup bug, or infer recovery latency from report timestamps.
 
-## Recovery hypothesis and software checks
+Earlier [battery/charging checks](https://github.com/ahmedkhursheed23/HaloBattery/issues/48#issuecomment-6716473809) remain useful. The [November 12 pair of accepted 25% readings](https://github.com/ahmedkhursheed23/HaloBattery/issues/48#issuecomment-6810893248) captured no failing-to-recovered sequence and did not establish a fix.
 
-Battery communication may remain stuck after a failed request. [Vole section 14](https://github.com/johanneszab/vole/blob/4ba29dea54b4628df03cfe2f94f4576c124afd80/re/PROTOCOL.md#14-a-failed-command-wedges-the-device-until-the-next-probe) describes recovery through `0x0F`, but its live evidence is **OP1w 4k v2, mouse FW 1.07 / receiver FW 1.01 on Linux**. This is a lead, not an established XM2w cause or fix. Device state, application interaction and elapsed time remain alternatives.
+## Software checks are separate from hardware recovery
 
-The [logging build](https://github.com/nqble/HaloBattery/releases/tag/xm2w4k-original-logging-r1) identifies the failing command without adding device commands. [November 11 diagnostics](https://github.com/ahmedkhursheed23/HaloBattery/issues/48#issuecomment-6803300510) show identity command `0x0E` returning `0x08` before and after restarting HaloBattery. After opening the official tool, a battery request returns `0x01`, but that poll still fails the consecutive-sample agreement check. The displayed 30% is cached, not a newly accepted reading.
+- **Published bounded-r1:** original model only; process isolation contains some blocked requests. It does not contain Janlhin's separate worker-thread timeout patch.
+- **Local correction candidate:** based on upstream snapshot `a4159e8ebdd3e7b2d06accde63526b4c03b3c31e`, with original/v2 handling and last-operation timeout logging. Normal 4K polling remains disabled. Source suite: **2,017 tests run, two skipped**. Packaged checks: ten simulated transactions, five lifecycle checks, seven canonical-entry cases and a synthetic tray check; embedded source matched.
+- Those simulations verify failure handling and packaging, not a real-device recovery fix. Two lifecycle cases use mocked process objects. The eight-second child wait excludes parent enumeration and process creation; unusual driver termination remains unverified.
+- The local verification harness is **not an owner tester**. These checks do not update an existing download. Upstream has moved beyond that tested snapshot; reassess it before a correction PR.
 
-These failures returned promptly; they do not demonstrate a blocked HID call. The reported elapsed time covers the whole read attempt, not just the final request.
+Janlhin's separate corrected timeout patch remains software-tested only; its exact identity and evidence boundaries are in the detailed findings. Do not combine its test counts with the process-isolation candidate's results.
 
-### Published original-model timeout experiment
+## Next evidence needed
 
-The [original-model bounded-r1 build](https://github.com/nqble/HaloBattery/releases/tag/xm2w4k-original-bounded-r1) runs status transactions in a separate process. Its earlier local checks passed: 29 focused tests, seven packaged worker simulations and a synthetic tray check. It supports the original model only and has not been submitted to VirusTotal.
+Identify what the official tool does when reporting resumes. An optional capture method is prepared, not executed: prepare receiver-only USB capture before a failure, record one natural failure, check whether reopening HaloBattery alone restores it, then capture vendor-tool-associated recovery with only one reader running at a time. No new test results or tester agreement are implied.
 
-[Mqtteo0's subsequent report](https://github.com/ahmedkhursheed23/HaloBattery/issues/48#issuecomment-6810893248) says Refresh worked without the official tool. Both attached snapshots contain an accepted online 25% reading. They do not capture a failure-to-recovery sequence or a timeout, so they do not establish that the intermittent reporting loss is fixed.
+Keep raw captures private pending review. A display filter is not anonymization. Do not replay unknown vendor commands or add `0x0F` from the OP1w analogy. A recovery claim needs a captured failure, supported action, accepted readings afterward and repeatable behavior without unwanted wake/sleep changes.
 
-### Packaging verification — 2026-11-11
+## Downloads and context
 
-A separate local candidate is based on upstream pre-release `db0516e6ab5f50706385d50ffc20b4b9e10071a8`. It prepares original/v2 identity handling and process-isolated status transactions, while retaining the release hold: normal 4K polling remains disabled.
+Experimental packages: [original Stage D](https://github.com/nqble/HaloBattery/releases/tag/xm2w4k-original-stage-d-r1), [v2 Stage D](https://github.com/nqble/HaloBattery/releases/tag/xm2w4kv2-stage-d-r1), [original bounded-r1](https://github.com/nqble/HaloBattery/releases/tag/xm2w4k-original-bounded-r1). Extract the entire runtime ZIP. Older executable scans do not cover the local candidate; no scan was rechecked for this update.
 
-The updated source suite passed: **1,988 tests run, two skipped**. Packaged verification passed ten simulated transactions, including both model identities, wired presentation, failure status, sample disagreement and hangs during open/send/read/close. Five lifecycle checks cover concurrent-request refusal, pending termination, completed-worker cleanup, active shutdown and closed-boundary suppression; pending-termination and completed-worker cases use simulated process objects. A synthetic tray check and three additional canonical worker-entry cases passed. Embedded code matched the reviewed source.
+[Earlier investigation chronology](https://github.com/nqble/HaloBattery/blob/4c52344615015b2b81832f96b647090d457439a9/docs/endgame/4k-status.md) retains the dated diagnostics and older packaging checks. Troubleshooting continues in [community issue #48](https://github.com/ahmedkhursheed23/HaloBattery/issues/48); future correction PRs target upstream `pre-release` after review. No merge or release date is promised.
 
-The first tray attempt failed to create its Windows notification-area icon in the restricted execution context. Retrying in the normal desktop context passed; the initial failure is retained in the local verification record. These are software simulations, not new mouse hardware results.
-
-After launch, the parent waits up to eight seconds for transaction completion, then attempts termination and cleanup. An unreaped worker blocks another transaction. Parent enumeration and process creation are outside that wait; abrupt process exit and unusual driver/OS termination remain unverified. Only `0x0E` and `0xB4` are allowed; no `0x0D` follow-up or automatic `0x0F` recovery was added.
-
-This candidate and its local verification harness are **not a new tester release**. Do not send the harness as a hardware-test build. A separately prepared portable test package and short checklist are needed before asking an owner to test. The persistent returning-`0x08` stall remains unresolved; blocking-call protection does not establish recovery.
-
-### Investigation plan
-
-The working explanation is that cursor input recovers while battery communication remains stuck; opening the official tool appears to restore reporting. What the tool changes is unknown. No fix has been confirmed.
-
-1. Review the packaged candidate, then prepare a separately labelled portable package and focused hardware checklist. Keep timeout protection separate from investigation of returning `0x08` responses.
-2. Capture individual battery samples when communication resumes but the agreement check fails. Do not infer their values from the cached percentage.
-3. Review model-specific sleep effects and request details before considering a controlled `0x0F` experiment. No automatic probe fallback is implemented or approved by this plan.
-
-A separate option is to investigate receiver notifications for sleep/wake and battery changes, potentially avoiding queries during sleep. [Vole's protocol notes](https://github.com/johanneszab/vole/blob/4ba29dea54b4628df03cfe2f94f4576c124afd80/re/PROTOCOL.md) describe a separate Windows notification collection, `FF02:0001`; `FF01:0002` remains the command channel. Equivalent XM2w behavior and coexistence with other software are unverified. No notification reader has been implemented.
-
-Acceptance requires repeated recovery without the official tool, preserved battery/charging behavior and no unwanted wake or delayed sleep. A single successful reading is insufficient.
-
-## Integration and next step
-
-Upstream [PR #363](https://github.com/HeyOkay/HaloBattery/pull/363) merged community history into `pre-release` on November 8; [PR #365](https://github.com/HeyOkay/HaloBattery/pull/365) noted the pending Endgame correction. Neither included this candidate reader. No correction PR from nqble was listed upstream when checked on November 10.
-
-Investigate recovery and finish validation before submitting the combined correction to upstream `pre-release`. Troubleshooting remains in [issue #48](https://github.com/ahmedkhursheed23/HaloBattery/issues/48). No merge or release date is promised.
-
-## Downloads and dated scans
-
-- [Original XM2w 4k Stage D r1](https://github.com/nqble/HaloBattery/releases/tag/xm2w4k-original-stage-d-r1)
-- [XM2w 4k v2 Stage D r1](https://github.com/nqble/HaloBattery/releases/tag/xm2w4kv2-stage-d-r1)
-
-Extract the entire Windows ZIP and retain its runtime folder. English/Chinese instructions are included. The tag source archive is not a complete snapshot of the modified executable; packages include review excerpts and base information.
-
-VirusTotal last checked **November 8**, not rechecked for this update: [original](https://www.virustotal.com/gui/file/7d9953cc4faffce0fe2dc05a07bf8b6307f564d949f4e73af704eb8b78e16b3f/behavior) 2/71 detections; [v2](https://www.virustotal.com/gui/file/d0a9527aa44d98fbd8ee543b9f4eced744437ca4cd5020180a5963bb660c698e/behavior) 3/71. Both had a medium Python DLL sideloading Sigma match and at least one `_internal\python312.dll` load failure. Neither proves successful full-app execution or confirmed false positives. Counts can change; do not disable protection on this basis.
-
-## Attribution and publication
-
-Mqtteo0 [permitted a credited technical summary](https://github.com/ahmedkhursheed23/HaloBattery/issues/48#issuecomment-6716900302). Their public observations are separate from our hypotheses and Janlhin's private results. See [credits and evidence boundaries](credits-and-sources.md). No raw reports or identifying machine details are reproduced here.
+Hardware research: **Janlhin**. Independent public testing: **Mqtteo0**. Integration and packaging: **nqble**, with GPT assistance. See [credits and source boundaries](credits-and-sources.md). Only approved summaries are public; private reports, logs and messages are excluded.

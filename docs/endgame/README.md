@@ -13,8 +13,8 @@ Maintained by [nqble](https://github.com/nqble). This fork records specific Halo
 | XM2w 4k v2 | Janlhin's earlier portable Stage D checks and later native/source-run diagnostics | Working reads and earlier six-check pass; later persistent stalls qualify the earlier result |
 | Other XM/OP1 models | No completed hardware results recorded here | Support not established by this record |
 
-- [Combined original/v2 findings](4k-findings.md)
 - [4K maintainer summary, recovery evidence and next step](4k-status.md)
+- [Combined original/v2 findings](4k-findings.md)
 - [XM2we environment and observations](xm2we.md)
 - [Credits, sources and publication scope](credits-and-sources.md)
 

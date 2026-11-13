@@ -13,8 +13,8 @@
 | XM2w 4k v2 | Janlhin 早期的便携版 Stage D 检查，以及后期的原生读取与源码诊断 | 可正常读取，早期六项检查通过；后续出现的卡死说明早期通过不代表长期可靠 |
 | 其他 XM/OP1 型号 | 此处未记录任何已完成的硬件测试结果 | 本记录未验证支持情况 |
 
-- [XM2w 4k / v2](4k-findings.zh-CN.md)
 - [4K 维护者摘要、恢复证据和下一步](4k-status.zh-CN.md)
+- [XM2w 4k / v2](4k-findings.zh-CN.md)
 - [XM2we 环境与观察](xm2we.zh-CN.md)
 - [致谢、来源和发布范围](credits-and-sources.zh-CN.md)
 
