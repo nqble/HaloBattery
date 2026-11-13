@@ -1,15 +1,23 @@
 # Experimental 4K integration
 
-Recovery evidence updated 2026-11-11 (Pacific). Stage D builds are experimental, not released support.
+Recovery evidence updated 2026-11-13 (Pacific). Stage D builds are experimental, not released support.
 
 ## Maintainer summary
 
-| Model | Evidence | Remaining work |
+| Model | Hardware evidence | Current limitation |
 | --- | --- | --- |
-| Original XM2w 4k | Mqtteo0 confirmed battery agreement, charging display and recovery after cable removal | Battery reporting can remain unavailable despite cursor movement and Refresh; opening the official tool restores it |
-| XM2w 4k v2 | Private hardware results received | Janlhin must approve the final public wording |
+| Original XM2w 4k | Janlhin's native and source-run tray checks; Mqtteo0's separate portable-build tests | Working reads, charging display and ordinary sleep recovery; persistent reporting stall remains unresolved |
+| XM2w 4k v2 | Janlhin's earlier portable Stage D checks and later native/source-run diagnostics | Working reads and earlier six-check pass; later persistent stalls qualify the earlier result |
 
 The candidate uses `FF01:0002`, report `0xA1`, identity command `0x0E` and battery command `0xB4`. Non-success payloads are rejected. No `0x0F` probe or hardware-tested recovery fix has been added.
+
+Janlhin verified the corrected read-only path on one original XM2w 4k and one v2. Four fields agreed with vendor-tool comparisons: model identity, mouse firmware, receiver firmware and wireless percentage. Wired display suppresses misleading percentage values. Both models also developed persistent status-reporting stalls that movement did not clear. Recovery is unresolved; this is experimental support, not a completed reliability claim.
+
+The original-model bounded-r1 portable package is published on this fork. It uses process isolation to contain some blocked status work; it does not enable v2 or establish a fix for returning `0x08` replies. Mqtteo0 subsequently reported successful reads, but a failing-to-recovered stall sequence was not captured in that submission.
+
+Janlhin's separate timeout patch was developed after their hardware tests and has simulated-device evidence only. Its repairs and remaining runtime limits require review before adoption. No additional hardware testing is currently requested from Janlhin; the later receiver-replug experiment remains pending.
+
+[Detailed findings](4k-findings.md)
 
 ## Original-model hardware evidence
 
@@ -40,7 +48,7 @@ The [original-model bounded-r1 build](https://github.com/nqble/HaloBattery/relea
 
 [Mqtteo0's subsequent report](https://github.com/ahmedkhursheed23/HaloBattery/issues/48#issuecomment-6810893248) says Refresh worked without the official tool. Both attached snapshots contain an accepted online 25% reading. They do not capture a failure-to-recovery sequence or a timeout, so they do not establish that the intermittent reporting loss is fixed.
 
-### Current-upstream packaging verification
+### Packaging verification — 2026-11-11
 
 A separate local candidate is based on upstream pre-release `db0516e6ab5f50706385d50ffc20b4b9e10071a8`. It prepares original/v2 identity handling and process-isolated status transactions, while retaining the release hold: normal 4K polling remains disabled.
 
@@ -68,7 +76,7 @@ Acceptance requires repeated recovery without the official tool, preserved batte
 
 Upstream [PR #363](https://github.com/HeyOkay/HaloBattery/pull/363) merged community history into `pre-release` on November 8; [PR #365](https://github.com/HeyOkay/HaloBattery/pull/365) noted the pending Endgame correction. Neither included this candidate reader. No correction PR from nqble was listed upstream when checked on November 10.
 
-Investigate recovery, finish validation and obtain approval for private findings before submitting the combined correction to upstream `pre-release`. Troubleshooting remains in [issue #48](https://github.com/ahmedkhursheed23/HaloBattery/issues/48). No merge or release date is promised.
+Investigate recovery and finish validation before submitting the combined correction to upstream `pre-release`. Troubleshooting remains in [issue #48](https://github.com/ahmedkhursheed23/HaloBattery/issues/48). No merge or release date is promised.
 
 ## Downloads and dated scans
 

@@ -6,6 +6,12 @@
 - **HaloBattery 的上游和社区维护者**提供应用程序和集成框架。
 - **Vole 贡献者**提供公开的[协议研究](https://github.com/johanneszab/vole)。此处引用的恢复证据已固定范围，仅适用于 OP1w 硬件，而非 XM2w 验证。
 
+**[Janlhin](https://github.com/Janlhin)** — 对原版 XM2w 4k 和 v2 硬件的调查、官方工具比对、充电/休眠及卡死现象的观察、诊断脚本与源码建议，以及技术摘要评审。
+
 ## 发布范围
 
-公开来源已建立链接；私人消息、原始报告、附件以及可识别机器身份的信息均不予复现。Janlhin 的私人发现尚待最终措辞批准。原始数据的重新分发须另行获得许可。公开源代码仍受其许可证和相关声明约束；发现摘要不授予任何复用权利。
+公开来源已建立链接；私人消息、原始报告、附件以及可识别机器身份的信息均不予复现。原始数据的重新分发须另行获得许可。公开源代码仍受其许可证和相关声明约束；发现摘要不授予任何复用权利。
+
+公共协议背景包括 [Janlhin 的配置器](https://github.com/Janlhin/Endgame_Gear_Web_Configurator)、[mouse-battery-monitor 的 ENDGAME.md（修订版 25871cce）](https://github.com/stuffz/mouse-battery-monitor/blob/25871cce3a8266d8d2bc05b0ca81fbb74b3a38b4/docs/ENDGAME.md) 以及 [Vole 的协议文档](https://github.com/johanneszab/vole/blob/4ba29dea54b4628df03cfe2f94f4576c124afd80/re/PROTOCOL.md)。
+
+ENDGAME.md 独立记录了毫伏字段、5 档百分比刻度、`0x08` 的陈旧缓冲区规则以及有线充电展示。Vole 的 OP1w 发现提供了调查背景；它们未被视作 XM2w 行为的证据。每个项目均保留其自身的署名和许可条款。
