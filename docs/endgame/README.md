@@ -18,6 +18,8 @@ Maintained by [nqble](https://github.com/nqble). This fork records specific Halo
 - [XM2we environment and observations](xm2we.md)
 - [Credits, sources and publication scope](credits-and-sources.md)
 
+Current integration tracking: [upstream issue #324](https://github.com/HeyOkay/HaloBattery/issues/324) and [draft PR #428](https://github.com/HeyOkay/HaloBattery/pull/428). The PR keeps normal 4K polling disabled; published experimental test packages are not general support.
+
 ## Scope
 
 Stage D means the portable application test used in this collaboration. Original-model and v2 builds are separate. Simulations do not establish hardware compatibility. Matching percentages do not establish capacity, health or long-term accuracy. A result for one model or firmware does not establish another's behavior.
