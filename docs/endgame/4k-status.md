@@ -1,6 +1,6 @@
 # 4K correction: readings verified, recovery unresolved
 
-Updated November 13, 2026 (Pacific). Experimental work; no correction PR from nqble has been submitted upstream.
+Updated November 18, 2026 (Pacific). [Upstream draft PR #428](https://github.com/HeyOkay/HaloBattery/pull/428) is open against `pre-release`. Normal 4K polling remains disabled; this is held preparation, not released support.
 
 ## Maintainer summary
 
@@ -11,7 +11,7 @@ Updated November 13, 2026 (Pacific). Experimental work; no correction PR from nq
 
 These are specific units and firmware, not lineup-wide validation. See the [approved detailed findings](4k-findings.md) for setups, protocol evidence, per-model results and limitations.
 
-The correction uses `FF01:0002`, report `0xA1`, identity `0x0E` and battery `0xB4`. Failed/stale payloads are rejected; wired display shows Charging without a misleading percentage. No automatic `0x0F` recovery is implemented.
+The correction uses `FF01:0002`, report `0xA1`, identity `0x0E` and battery `0xB4`. Failed-status payloads are rejected; wired display shows Charging without a misleading percentage. Successful replies have no verified command/sequence correlation, so stale successes can pass framing and repeated-value checks. Sample agreement does not prove freshness. No automatic `0x0F` recovery is implemented.
 
 ## Latest public hardware evidence
 
@@ -29,9 +29,10 @@ Earlier [battery/charging checks](https://github.com/ahmedkhursheed23/HaloBatter
 ## Software checks are separate from hardware recovery
 
 - **Published bounded-r1:** original model only; process isolation contains some blocked requests. It does not contain Janlhin's separate worker-thread timeout patch.
-- **Local correction candidate:** based on upstream snapshot `a4159e8ebdd3e7b2d06accde63526b4c03b3c31e`, with original/v2 handling and last-operation timeout logging. Normal 4K polling remains disabled. Source suite: **2,017 tests run, two skipped**. Packaged checks: ten simulated transactions, five lifecycle checks, seven canonical-entry cases and a synthetic tray check; embedded source matched.
-- Those simulations verify failure handling and packaging, not a real-device recovery fix. Two lifecycle cases use mocked process objects. The eight-second child wait excludes parent enumeration and process creation; unusual driver termination remains unverified.
-- The local verification harness is **not an owner tester**. These checks do not update an existing download. Upstream has moved beyond that tested snapshot; reassess it before a correction PR.
+- **Upstream draft preparation:** PR #428 now carries the corrected reader and process isolation. Head `7491e04` adds cleanup-error containment so filesystem cleanup failures do not discard a valid reading. Normal polling remains held; reply freshness and persistent `0x08` recovery are unresolved.
+- **Software evidence for PR #428:** the latest local PR source suite ran **2,339 tests, two skipped**; GitHub tests also passed. A previously frozen build at `769727f` passed seven fake-device worker cases, including original/v2 success, status rejection and blocked open/send/read/close. That frozen dispatch check predates the cleanup-only follow-up; it is not a new owner build or full installer acceptance test.
+- These checks establish bounded software behavior, not hardware recovery or general compatibility. Failed termination or abrupt exit can still leave worker files. No new hardware test or download is implied.
+- The older candidate at `a4159e8` and its 2,017-test/package results are historical; they are not the current PR snapshot.
 
 Janlhin's separate corrected timeout patch remains software-tested only; its exact identity and evidence boundaries are in the detailed findings. Do not combine its test counts with the process-isolation candidate's results.
 
@@ -43,8 +44,10 @@ Keep raw captures private pending review. A display filter is not anonymization.
 
 ## Downloads and context
 
-Experimental packages: [original Stage D](https://github.com/nqble/HaloBattery/releases/tag/xm2w4k-original-stage-d-r1), [v2 Stage D](https://github.com/nqble/HaloBattery/releases/tag/xm2w4kv2-stage-d-r1), [original bounded-r1](https://github.com/nqble/HaloBattery/releases/tag/xm2w4k-original-bounded-r1). Extract the entire runtime ZIP. Older executable scans do not cover the local candidate; no scan was rechecked for this update.
+Experimental packages: [original Stage D](https://github.com/nqble/HaloBattery/releases/tag/xm2w4k-original-stage-d-r1), [v2 Stage D](https://github.com/nqble/HaloBattery/releases/tag/xm2w4kv2-stage-d-r1), [original bounded-r1](https://github.com/nqble/HaloBattery/releases/tag/xm2w4k-original-bounded-r1). Extract the entire runtime ZIP. Older executable scans do not cover the current PR source; no scan was rechecked for this update.
 
-[Earlier investigation chronology](https://github.com/nqble/HaloBattery/blob/4c52344615015b2b81832f96b647090d457439a9/docs/endgame/4k-status.md) retains the dated diagnostics and older packaging checks. Troubleshooting continues in [community issue #48](https://github.com/ahmedkhursheed23/HaloBattery/issues/48); future correction PRs target upstream `pre-release` after review. No merge or release date is promised.
+[Earlier investigation chronology](https://github.com/nqble/HaloBattery/blob/4c52344615015b2b81832f96b647090d457439a9/docs/endgame/4k-status.md) retains the dated diagnostics and older packaging checks.
+
+**Current tracking:** [upstream issue #324](https://github.com/HeyOkay/HaloBattery/issues/324) and [draft PR #428](https://github.com/HeyOkay/HaloBattery/pull/428). [Community issue #48](https://github.com/ahmedkhursheed23/HaloBattery/issues/48) remains the earlier public testing record. HeyOkay [consolidated duplicate #321 into #324](https://github.com/HeyOkay/HaloBattery/issues/324#issuecomment-6974465678); its older `FF02:0002 / query 04` short-send report is not a test of the corrected path or new evidence of its stall. Closing that duplicate does not mean support is enabled or fixed. No merge, release date or safe automatic recovery is promised.
 
 Hardware research: **Janlhin**. Independent public testing: **Mqtteo0**. Integration and packaging: **nqble**, with GPT assistance. See [credits and source boundaries](credits-and-sources.md). Only approved summaries are public; private reports, logs and messages are excluded.

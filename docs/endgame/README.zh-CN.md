@@ -18,6 +18,8 @@
 - [XM2we 环境与观察](xm2we.zh-CN.md)
 - [致谢、来源和发布范围](credits-and-sources.zh-CN.md)
 
+当前集成跟踪：[上游问题 #324](https://github.com/HeyOkay/HaloBattery/issues/324) 和 [草稿 PR #428](https://github.com/HeyOkay/HaloBattery/pull/428)。该 PR 保持常规的 4K 轮询处于禁用状态；已发布的实验性测试软件包不属于通用支持范围。
+
 ## 范围
 
 阶段 D 表示本次协作中使用的便携式应用程序测试。第一代型号和 v2 构建版本是相互独立的。模拟无法确定硬件兼容性。匹配百分比无法确定容量、健康状况或长期准确性。一个型号或固件的结果无法确定另一个型号或固件的行为。
