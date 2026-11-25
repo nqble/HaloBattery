@@ -18,7 +18,7 @@
 - [XM2we 环境与观察](xm2we.zh-CN.md)
 - [致谢、来源和发布范围](credits-and-sources.zh-CN.md)
 
-当前集成跟踪：[上游问题 #324](https://github.com/HeyOkay/HaloBattery/issues/324) 和 [草稿 PR #428](https://github.com/HeyOkay/HaloBattery/pull/428)。该 PR 保持常规的 4K 轮询处于禁用状态；已发布的实验性测试软件包不属于通用支持范围。
+当前集成：[PR #479 已合并到上游预发布版本](https://github.com/HeyOkay/HaloBattery/pull/479)，采用了受保护的本地诊断方案，取代了 [已关闭的 PR #428](https://github.com/HeyOkay/HaloBattery/pull/428) 中的基于进程的准备方案。常规的 4K 轮询仍处于禁用状态。回复新鲜度和持续性报告停滞问题仍在 [issue #324](https://github.com/HeyOkay/HaloBattery/issues/324) 中跟踪；早期的实验性软件包不具备通用支持能力。
 
 ## 范围
 

@@ -1,6 +1,6 @@
 # 4K correction: readings verified, recovery unresolved
 
-Updated November 18, 2026 (Pacific). [Upstream draft PR #428](https://github.com/HeyOkay/HaloBattery/pull/428) is open against `pre-release`. Normal 4K polling remains disabled; this is held preparation, not released support.
+Updated November 25, 2026 (Pacific). [PR #479](https://github.com/HeyOkay/HaloBattery/pull/479) merged into upstream `pre-release` on November 22. It carries the sourced A1 protocol preparation through guarded local diagnostics. [PR #428 was closed as superseded](https://github.com/HeyOkay/HaloBattery/pull/428#issuecomment-7079239539), with credit to nqble, Janlhin and Mqtteo0. Normal 4K polling remains disabled; merged diagnostics are not released battery support.
 
 ## Maintainer summary
 
@@ -11,7 +11,7 @@ Updated November 18, 2026 (Pacific). [Upstream draft PR #428](https://github.com
 
 These are specific units and firmware, not lineup-wide validation. See the [approved detailed findings](4k-findings.md) for setups, protocol evidence, per-model results and limitations.
 
-The correction uses `FF01:0002`, report `0xA1`, identity `0x0E` and battery `0xB4`. Failed-status payloads are rejected; wired display shows Charging without a misleading percentage. Successful replies have no verified command/sequence correlation, so stale successes can pass framing and repeated-value checks. Sample agreement does not prove freshness. No automatic `0x0F` recovery is implemented.
+The correction uses `FF01:0002`, report `0xA1`, identity `0x0E` and battery `0xB4`. Failed-status payloads are rejected. Earlier test builds withheld the wired percentage; the replacement diagnostic also withholds it and labels cable-based charging as inference, not a verified charging flag. Successful replies have no verified command/sequence correlation, so stale successes can pass framing and repeated-value checks. Sample agreement does not prove freshness. No automatic `0x0F` recovery is implemented.
 
 ## Latest public hardware evidence
 
@@ -26,15 +26,15 @@ This returned promptly; it is **not a captured timeout**. The recurrence shows t
 
 Earlier [battery/charging checks](https://github.com/ahmedkhursheed23/HaloBattery/issues/48#issuecomment-6716473809) remain useful. The [November 12 pair of accepted 25% readings](https://github.com/ahmedkhursheed23/HaloBattery/issues/48#issuecomment-6810893248) captured no failing-to-recovered sequence and did not establish a fix.
 
-## Software checks are separate from hardware recovery
+## Integrated diagnostics versus earlier builds
 
-- **Published bounded-r1:** original model only; process isolation contains some blocked requests. It does not contain Janlhin's separate worker-thread timeout patch.
-- **Upstream draft preparation:** PR #428 now carries the corrected reader and process isolation. Head `7491e04` adds cleanup-error containment so filesystem cleanup failures do not discard a valid reading. Normal polling remains held; reply freshness and persistent `0x08` recovery are unresolved.
-- **Software evidence for PR #428:** the latest local PR source suite ran **2,339 tests, two skipped**; GitHub tests also passed. A previously frozen build at `769727f` passed seven fake-device worker cases, including original/v2 success, status rejection and blocked open/send/read/close. That frozen dispatch check predates the cleanup-only follow-up; it is not a new owner build or full installer acceptance test.
-- These checks establish bounded software behavior, not hardware recovery or general compatibility. Failed termination or abrupt exit can still leave worker files. No new hardware test or download is implied.
-- The older candidate at `a4159e8` and its 2,017-test/package results are historical; they are not the current PR snapshot.
+- **Current upstream implementation:** [merge c2e363a](https://github.com/HeyOkay/HaloBattery/commit/c2e363abb196d25fd3825c3476931247550644fd) uses the shared in-process transport, not #428's worker processes. Normal `poll()` returns no reading and performs no enumeration or device access.
+- **Explicit diagnostics only:** the user must acknowledge experimental operation and select receiver or wired transport. Ambiguous endpoints are refused. Close HaloBattery and vendor tools first; the app lease does not exclude vendor software. See the [upstream diagnostic instructions](https://github.com/HeyOkay/HaloBattery/blob/c2e363abb196d25fd3825c3476931247550644fd/docs/device-diagnostics.md), not the older package instructions.
+- **Evidence limits:** identity is queried before one battery `0xB4` request; repeated values are not treated as freshness proof. No automatic recovery query is sent. A failed exchange may require replugging or vendor-tool recovery. Diagnostic readings do not create normal tray status or enable the device family.
+- **Upstream-reported checks:** #479 reports 3,697 offline tests with three optional skips and Ruff passing. These are the maintainer's software results, not independently rerun here or new hardware evidence. This November 25 update inspects source and tests; it sends no device requests.
+- **Historical packages:** published bounded-r1 is original-model only and uses process isolation. #428 at `7491e04` had 2,339 tests with two skipped; an earlier frozen build at `769727f` passed seven fake-device worker cases. Those results belong to those implementations and do not validate #479's transport. No new owner build, download or scan is supplied by this update.
 
-Janlhin's separate corrected timeout patch remains software-tested only; its exact identity and evidence boundaries are in the detailed findings. Do not combine its test counts with the process-isolation candidate's results.
+Janlhin's corrected timeout patch remains separate, software-tested evidence. Do not combine its counts with either upstream implementation. The approved model findings and their hardware limitations are unchanged.
 
 ## Next evidence needed
 
@@ -48,6 +48,6 @@ Experimental packages: [original Stage D](https://github.com/nqble/HaloBattery/r
 
 [Earlier investigation chronology](https://github.com/nqble/HaloBattery/blob/4c52344615015b2b81832f96b647090d457439a9/docs/endgame/4k-status.md) retains the dated diagnostics and older packaging checks.
 
-**Current tracking:** [upstream issue #324](https://github.com/HeyOkay/HaloBattery/issues/324) and [draft PR #428](https://github.com/HeyOkay/HaloBattery/pull/428). [Community issue #48](https://github.com/ahmedkhursheed23/HaloBattery/issues/48) remains the earlier public testing record. HeyOkay [consolidated duplicate #321 into #324](https://github.com/HeyOkay/HaloBattery/issues/324#issuecomment-6974465678); its older `FF02:0002 / query 04` short-send report is not a test of the corrected path or new evidence of its stall. Closing that duplicate does not mean support is enabled or fixed. No merge, release date or safe automatic recovery is promised.
+**Current tracking:** [upstream issue #324](https://github.com/HeyOkay/HaloBattery/issues/324). [Merged PR #479](https://github.com/HeyOkay/HaloBattery/pull/479) carries diagnostics; [closed PR #428](https://github.com/HeyOkay/HaloBattery/pull/428) preserves the earlier review record. [Community issue #48](https://github.com/ahmedkhursheed23/HaloBattery/issues/48) remains the earlier public testing record. HeyOkay [consolidated duplicate #321 into #324](https://github.com/HeyOkay/HaloBattery/issues/324#issuecomment-6974465678); its older `FF02:0002 / query 04` short-send report is not a test of the corrected path or new evidence of its stall. Closing that duplicate does not mean support is enabled or fixed. The diagnostic merge does not resolve normal support, a release date or safe automatic recovery.
 
 Hardware research: **Janlhin**. Independent public testing: **Mqtteo0**. Integration and packaging: **nqble**, with GPT assistance. See [credits and source boundaries](credits-and-sources.md). Only approved summaries are public; private reports, logs and messages are excluded.
