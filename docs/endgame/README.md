@@ -18,7 +18,7 @@ Maintained by [nqble](https://github.com/nqble). This fork records specific Halo
 - [XM2we environment and observations](xm2we.md)
 - [Credits, sources and publication scope](credits-and-sources.md)
 
-Current integration tracking: [upstream issue #324](https://github.com/HeyOkay/HaloBattery/issues/324) and [draft PR #428](https://github.com/HeyOkay/HaloBattery/pull/428). The PR keeps normal 4K polling disabled; published experimental test packages are not general support.
+Current integration: [PR #479 merged into upstream pre-release](https://github.com/HeyOkay/HaloBattery/pull/479), carrying guarded local diagnostics in place of the process-based preparation in [closed PR #428](https://github.com/HeyOkay/HaloBattery/pull/428). Normal 4K polling remains disabled. Reply freshness and persistent reporting stalls remain tracked in [issue #324](https://github.com/HeyOkay/HaloBattery/issues/324); earlier experimental packages are not general support.
 
 ## Scope
 
