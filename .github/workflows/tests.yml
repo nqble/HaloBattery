@@ -2,7 +2,7 @@ name: Tests
 
 # Required checks for pull requests into pre-release and main.
 # "tests" runs the unit tests (fake HID, no hardware) and the --probe smoke test.
-# "branch-policy" only allows pre-release or hotfix/* branches to target main.
+# "branch-policy" enforces upstream release routing; this contribution fork uses main.
 
 on:
   pull_request:
@@ -41,7 +41,8 @@ jobs:
         run: python halo_battery.pyw --probe
 
   branch-policy:
-    if: github.event_name == 'pull_request' && github.base_ref == 'main'
+    # Fork-local exception: keep unit/smoke checks, but not upstream release routing.
+    if: github.repository != 'nqble/HaloBattery' && github.event_name == 'pull_request' && github.base_ref == 'main'
     runs-on: ubuntu-latest
     steps:
       - name: Only pre-release or hotfix/* may target main
