@@ -1,6 +1,12 @@
 # 4K 修正：读数已验证，恢复未解决
 
-更新于 2026 年 11 月 25 日（太平洋时间）。[PR #479](https://github.com/HeyOkay/HaloBattery/pull/479) 已于 11 月 22 日合并至上游 `pre-release`。该更新通过受保护的本地诊断，完成了源自 A1 协议的准备工作。[PR #428 因已被取代而关闭](https://github.com/HeyOkay/HaloBattery/pull/428#issuecomment-7079239539)，特此感谢 nqble、Janlhin 和 Mqtteo0。常规的 4K 轮询仍处于禁用状态；诊断功能合并并不表示常规电池支持已发布。
+更新于 2026 年 11 月 26 日（太平洋时间）。[HaloBattery 1.18.0 稳定版](https://github.com/HeyOkay/HaloBattery/releases/tag/v1.18.0) 包含来自 [PR #479](https://github.com/HeyOkay/HaloBattery/pull/479) 的受保护 A1 诊断功能，以及启动保护修复 [#587](https://github.com/HeyOkay/HaloBattery/pull/587)。常规的 4K 轮询仍处于禁用状态；本版本未启用常规 4K 支持，也未解决持续卡死问题。
+
+## 经验证的稳定诊断构建版本
+
+官方的 `HaloBattery-1.18.0.zip` 与两个已发布的 SHA-256 校验值均匹配：`0967f611f2672b31ea6f8e45df40e96a8abd1338f01e6f816e1375ec62d1f240`。存档完整性和模块存在性检查已通过。打包后的可执行文件在以下情况回传了预期的退出代码：帮助 (0)、缺少确认 (2)、缺少传输 (2) 以及拼写错误的诊断开关 (2)，且未创建任何报告。
+
+未执行任何有效的设备查询，已安装的应用程序保持不变。这些检查不会验证硬件读数、数据是否为最新值或恢复效果。中英文测试员核对清单已保存，但尚未发送给任一测试员。未针对此二进制文件提交 VirusTotal 扫描。
 
 ## 维护者摘要
 
@@ -31,8 +37,8 @@
 - **当前上游实现：**[merge c2e363a](https://github.com/HeyOkay/HaloBattery/commit/c2e363abb196d25fd3825c3476931247550644fd) 使用共享的进程内传输，而非 #428 的工作进程。正常的 `poll()` 不会返回任何读取内容，也不会执行任何枚举或设备访问。
 - **仅限用户明确发起的诊断：** 用户必须确认实验性操作，并选择接收器或有线传输方式。含糊不清的端点将被拒绝。请先关闭 HaloBattery 和供应商工具；应用互斥机制无法阻止官方工具同时访问设备。请参阅[上游诊断说明](https://github.com/HeyOkay/HaloBattery/blob/c2e363abb196d25fd3825c3476931247550644fd/docs/device-diagnostics.md)，而非旧版软件包说明。
 - **证据限制：** 先查询身份，再发送一次电池 `0xB4` 请求；重复值不被视为新鲜性证明。不会发送自动恢复查询。交换失败可能需要重新插拔或使用供应商工具进行恢复。诊断读数不会创建正常的托盘状态，也不会启用该设备系列。
-- **上游报告的检查项：** #479 报告了 3,697 的离线测试，包含三个可选跳过项且 Ruff 通过。这些是维护者的软件结果，并非在此独立重新运行，也非新的硬件证据。本次 11 月 25 日更新会检查源代码和测试项；它不会发送任何设备请求。
-- **历史软件包：**已发布的 bounded-r1 仅适用于 原版型号，并采用进程隔离。#428 在 `7491e04` 处执行了 2,339 测试，其中两项被跳过；更早的冻结构建版本 `769727f` 通过了七项模拟设备工作进程用例。这些结果属于相应的实现，并不能验证 #479 的传输机制。本次更新不提供新的供测试者使用的新构建、下载或扫描功能。
+- **上游报告的检查项：** #479 报告了 3,697 的离线测试，包含三个可选跳过项且 Ruff 通过。这些是维护者的软件结果，并非在此独立重新运行，也非新的硬件证据。
+- **历史软件包：**已发布的 bounded-r1 仅适用于 原版型号，并采用进程隔离。#428 在 `7491e04` 处执行了 2,339 测试，其中两项被跳过；更早的冻结构建版本 `769727f` 通过了七项模拟设备工作进程用例。这些结果属于相应的实现，并不能验证 #479 的传输机制。这些历史打包检查不能验证稳定版制品。
 
 Janlhin 修正后的超时补丁仍为独立存在的、经软件测试验证的证据。请勿将其计数与任一上游实现合并。已批准的模型发现及其硬件限制保持不变。
 
@@ -48,6 +54,6 @@ Janlhin 修正后的超时补丁仍为独立存在的、经软件测试验证的
 
 [早期调查时间线](https://github.com/nqble/HaloBattery/blob/4c52344615015b2b81832f96b647090d457439a9/docs/endgame/4k-status.md)保留了带日期的诊断结果和旧版包装检查记录。
 
-**当前跟踪：**[上游问题 #324](https://github.com/HeyOkay/HaloBattery/issues/324)。[PR #479](https://github.com/HeyOkay/HaloBattery/pull/479) 已合并诊断功能；[PR #428](https://github.com/HeyOkay/HaloBattery/pull/428) 已关闭并保留早期评审记录。 [社区问题 #48](https://github.com/ahmedkhursheed23/HaloBattery/issues/48) 仍然是较早的公开测试记录。 HeyOkay [已将重复问题 #321 的追踪集中到 #324](https://github.com/HeyOkay/HaloBattery/issues/324#issuecomment-6974465678)；其较早的 `FF02:0002 / query 04` 短发送报告既非对已修正路径的测试，也非其停滞的新证据。 关闭该重复项并不意味着支持已启用或已修复。 诊断功能的合并不代表常规支持已启用，也不承诺发布日期或安全的自动恢复。
+**当前跟踪：**[上游问题 #324](https://github.com/HeyOkay/HaloBattery/issues/324)。[PR #479](https://github.com/HeyOkay/HaloBattery/pull/479) 已合并诊断功能；[PR #428](https://github.com/HeyOkay/HaloBattery/pull/428) 已关闭并保留早期评审记录。 [社区问题 #48](https://github.com/ahmedkhursheed23/HaloBattery/issues/48) 仍然是较早的公开测试记录。 HeyOkay [已将重复问题 #321 的追踪集中到 #324](https://github.com/HeyOkay/HaloBattery/issues/324#issuecomment-6974465678)；其较早的 `FF02:0002 / query 04` 短发送报告既非对已修正路径的测试，也非其停滞的新证据。 关闭该重复项并不意味着支持已启用或已修复。 诊断功能发布并不代表常规 4K 支持已启用或已实现安全的自动恢复。
 
 硬件研究：**Janlhin**。独立公开测试：**Mqtteo0**。集成与打包：**nqble**，由 GPT 协助完成。请参阅[致谢与来源边界](credits-and-sources.md)。仅批准的摘要可公开；私人报告、日志和消息均不包含在内。
