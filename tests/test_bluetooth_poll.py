@@ -87,6 +87,8 @@ class BluetoothSnapshotTests(unittest.TestCase):
             mock.patch.object(hb, "DeviceIcon", FakeIcon),
             mock.patch.object(hb.pystray, "Icon", FakeTrayIcon),
             mock.patch.object(hb, "save_config", lambda cfg: None),
+            # Poll cadence tests must not depend on the desktop full-screen state.
+            mock.patch.object(hb, "fullscreen_app_running", return_value=False),
         ]
         for p in patches:
             p.start()
