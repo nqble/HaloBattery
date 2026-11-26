@@ -18,7 +18,7 @@ Maintained by [nqble](https://github.com/nqble). This fork records specific Halo
 - [XM2we environment and observations](xm2we.md)
 - [Credits, sources and publication scope](credits-and-sources.md)
 
-Current integration: [PR #479 merged into upstream pre-release](https://github.com/HeyOkay/HaloBattery/pull/479), carrying guarded local diagnostics in place of the process-based preparation in [closed PR #428](https://github.com/HeyOkay/HaloBattery/pull/428). Normal 4K polling remains disabled. Reply freshness and persistent reporting stalls remain tracked in [issue #324](https://github.com/HeyOkay/HaloBattery/issues/324); earlier experimental packages are not general support.
+Current integration: [HaloBattery 1.18.0 stable](https://github.com/HeyOkay/HaloBattery/releases/tag/v1.18.0) includes the guarded diagnostics from [PR #479](https://github.com/HeyOkay/HaloBattery/pull/479) and startup guard fix [#587](https://github.com/HeyOkay/HaloBattery/pull/587). The portable diagnostic entry has been checked without device access. Normal 4K polling remains disabled; freshness and persistent stalls remain open in [issue #324](https://github.com/HeyOkay/HaloBattery/issues/324).
 
 ## Scope
 
